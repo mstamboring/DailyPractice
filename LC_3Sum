@@ -1,0 +1,43 @@
+//https://leetcode.com/problems/3sum/
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<vector<int>> result;
+        int n = nums.size();
+        for(int i = 0; i < n-2; i++){
+            if(nums[i]>0)//排序后，大于0之后的加起来肯定超过0了，就截止。
+                break;
+            else{
+                if(i>0 && nums[i]==nums[i-1]){//nums[i]和nums[i-1]一样，跳过
+                    continue;
+                }
+                int target = 0 - nums[i]; //和2Sum的方法一样
+                int l=i+1;
+                int r=n-1;
+                while(l<r){
+                    int sum = nums[l]+nums[r];
+                    if(sum > target){
+                        r--;
+                    }
+                    else if(sum < target){
+                        l++;
+                    }
+                    else{
+                        result.push_back({nums[i], nums[l], nums[r]});
+                        while (l < r && nums[l] == nums[l + 1]) {//nums[l+1]和nums[l]一样，跳过
+                            l++;
+                        }
+                        while (l < r && nums[r] == nums[r - 1]) {//nums[r+1]和nums[r]一样，跳过
+                            r--;
+                        }
+                        // Move l and r to the next unique elements
+                        l++;
+                        r--;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};
